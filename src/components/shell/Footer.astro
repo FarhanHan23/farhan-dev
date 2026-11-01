@@ -1,0 +1,21 @@
+---
+import { siteConfig } from "../../config/site";
+---
+
+<footer class="w-full mt-20 pt-8 pb-12 border-t border-[#313844]/60 text-xs text-[#8e98a5] flex flex-col sm:flex-row items-center justify-between gap-4 font-mono">
+  <div>
+    &copy; {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
+  </div>
+  <div class="flex items-center gap-5">
+    {siteConfig.socialLinks.map((link) => (
+      <a
+        href={link.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hover:text-[#c6f135] transition-colors"
+      >
+        {link.text}
+      </a>
+    ))}
+  </div>
+</footer>

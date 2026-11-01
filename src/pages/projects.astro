@@ -1,0 +1,74 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const allProjects = await getCollection("projects");
+---
+
+<BaseLayout title="Projects | FarhanAkmal.dev" description="Daftar portofolio dan proyek yang dikembangkan oleh Farhan Akmal.">
+  <div class="pt-8 pb-16">
+    <div class="flex items-center justify-between mb-8 pb-4 border-b border-[#313844]">
+      <div>
+        <h1 class="text-2xl md:text-3xl font-bold text-[#c6f135]">Projects Showcase</h1>
+        <p class="text-sm text-[#8e98a5] mt-1 font-mono">Daftar karya aplikasi, web development, dan devops tooling.</p>
+      </div>
+      <a href="/" class="text-sm text-[#8e98a5] hover:text-[#c6f135] transition-colors font-mono">
+        ← Kembali
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {allProjects.map((project) => (
+        <div class="border border-[#313844] bg-[#242932]/50 p-6 flex flex-col justify-between hover:border-[#c6f135] transition-colors group">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <h2 class="text-lg font-bold text-white group-hover:text-[#c6f135] transition-colors">
+                {project.data.title}
+              </h2>
+              {project.data.featured && (
+                <span class="text-[10px] font-mono border border-[#c6f135] text-[#c6f135] px-2 py-0.5">
+                  FEATURED
+                </span>
+              )}
+            </div>
+            <p class="text-sm text-[#d1d5db] leading-relaxed mb-4">
+              {project.data.description}
+            </p>
+          </div>
+
+          <div>
+            <div class="flex flex-wrap gap-2 mb-4">
+              {project.data.tags.map((tag) => (
+                <span class="text-xs font-mono bg-[#1e2229] border border-[#313844] text-[#8e98a5] px-2 py-0.5">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <div class="flex items-center gap-4 text-xs font-mono">
+              {project.data.url && (
+                <a
+                  href={project.data.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-[#c6f135] hover:underline"
+                >
+                  Live Demo ↗
+                </a>
+              )}
+              {project.data.github && (
+                <a
+                  href={project.data.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-[#8e98a5] hover:text-white hover:underline"
+                >
+                  Source Code ↗
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

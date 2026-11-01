@@ -1,0 +1,49 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("post");
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+function formatDate(date: Date) {
+  const months = [
+    "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+    "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+  ];
+  return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+}
+---
+
+<BaseLayout title={`${post.data.title} | FarhanAkmal.dev`} description={post.data.description}>
+  <article class="pt-8 pb-16">
+    <div class="mb-8 pb-6 border-b border-[#313844]">
+      <a href="/blog" class="inline-block text-xs text-[#8e98a5] hover:text-[#c6f135] font-mono mb-4 transition-colors">
+        ← Kembali ke daftar artikel
+      </a>
+      <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight leading-snug">
+        {post.data.title}
+      </h1>
+      <div class="flex flex-wrap items-center gap-3 mt-4 text-xs font-mono text-[#8e98a5]">
+        <span class="border border-[#c6f135] text-[#c6f135] px-2.5 py-0.5">
+          {formatDate(post.data.publishedAt)}
+        </span>
+        {post.data.tags.map((tag) => (
+          <span class="bg-[#242932] px-2 py-0.5 text-[#d1d5db]">#{tag}</span>
+        ))}
+      </div>
+    </div>
+
+    <!-- Article Content with Prose Styling -->
+    <div class="prose prose-invert max-w-none text-[#d1d5db] leading-relaxed space-y-6 [&>h1]:text-2xl [&>h1]:font-bold [&>h1]:text-white [&>h1]:mt-8 [&>h2]:text-xl [&>h2]:font-bold [&>h2]:text-[#c6f135] [&>h2]:mt-6 [&>p]:leading-relaxed [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:space-y-2 [&>pre]:bg-[#171a20] [&>pre]:p-4 [&>pre]:rounded-none [&>pre]:border [&>pre]:border-[#313844] [&>code]:text-[#c6f135] [&>code]:font-mono">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

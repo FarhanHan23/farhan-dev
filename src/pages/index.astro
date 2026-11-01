@@ -1,0 +1,158 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/shell/Header.astro";
+import { getCollection } from "astro:content";
+
+// Mengambil artikel blog dari content collection
+const allPosts = await getCollection("post", ({ data }) => !data.draft);
+
+// 1. Artikel Khusus Fullstack (dengan contoh kode)
+const fullstackPosts = allPosts
+  .filter(
+    (p) =>
+      p.data.tags.map((t) => t.toLowerCase()).includes("fullstack") ||
+      p.id.includes("fullstack"),
+  )
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
+  .slice(0, 4);
+
+// 2. Artikel Idea / Refleksi / Opini Umum
+const ideaPosts = allPosts
+  .filter(
+    (p) =>
+      !p.data.tags.map((t) => t.toLowerCase()).includes("fullstack") &&
+      !p.id.includes("fullstack"),
+  )
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
+  .slice(0, 5);
+
+// 3. Mengambil demo projects (dari content/projects)
+const allProjects = await getCollection("projects");
+const displayedProjects = allProjects.slice(0, 4);
+
+function formatDate(date: Date) {
+  const months = [
+    "Januari",
+    "Februari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember",
+  ];
+  return `${months[date.getMonth()]} ${date.getFullYear()}`;
+}
+---
+
+<BaseLayout title="FarhanAkmal.dev | Fullstack Developer">
+  <Header />
+
+  <!-- Section Projects & Fullstack (2 Kolom Berdampingan) -->
+  <section class="mt-8 mb-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+      <!-- Kolom 1: Projects (Demo Showcase) -->
+      <div class="flex flex-col gap-4">
+        <a
+          href="/projects"
+          class="group inline-flex items-center justify-between text-xl font-bold text-[#c6f135] hover:text-[#b5e228] transition-colors"
+        >
+          <span>Projects</span>
+          <span
+            class="text-xl transform group-hover:translate-x-1 transition-transform"
+            >→</span
+          >
+        </a>
+
+        <div class="flex flex-col gap-5 mt-1">
+          {
+            displayedProjects.length > 0 ? (
+              displayedProjects.map((project) => (
+                <a
+                  href={project.data.url || project.data.github || "/projects"}
+                  class="text-sm md:text-base text-[#d1d5db] hover:text-white underline underline-offset-4 decoration-[#8e98a5]/50 hover:decoration-[#c6f135] transition-all leading-relaxed"
+                >
+                  {project.data.title}
+                </a>
+              ))
+            ) : (
+              <p class="text-sm text-[#8e98a5]">Belum ada data project.</p>
+            )
+          }
+        </div>
+      </div>
+
+      <!-- Kolom 2: Fullstack (Artikel Teknis + Kode) -->
+      <div class="flex flex-col gap-4">
+        <a
+          href="/blog"
+          class="group inline-flex items-center justify-between text-xl font-bold text-[#c6f135] hover:text-[#b5e228] transition-colors"
+        >
+          <span>Fullstack</span>
+          <span
+            class="text-xl transform group-hover:translate-x-1 transition-transform"
+            >→</span
+          >
+        </a>
+
+        <div class="flex flex-col gap-5 mt-1">
+          {
+            fullstackPosts.length > 0 ? (
+              fullstackPosts.map((post) => (
+                <a
+                  href={`/blog/${post.id}`}
+                  class="text-sm md:text-base text-[#d1d5db] hover:text-white underline underline-offset-4 decoration-[#8e98a5]/50 hover:decoration-[#c6f135] transition-all leading-relaxed"
+                >
+                  {post.data.title}
+                </a>
+              ))
+            ) : (
+              <p class="text-sm text-[#8e98a5]">Belum ada artikel Fullstack.</p>
+            )
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Idea (Artikel Opini / Pemikiran) -->
+  <section class="mt-14 mb-8">
+    <!-- Header Section Idea -->
+    <a
+      href="/blog"
+      class="group inline-flex items-center justify-between w-full text-xl font-bold text-[#c6f135] hover:text-[#b5e228] transition-colors pb-2 border-b border-[#313844]"
+    >
+      <span>Idea</span>
+      <span
+        class="text-xl transform group-hover:translate-x-1 transition-transform"
+        >→</span
+      >
+    </a>
+
+    <!-- List of Articles with Dashed Dividers -->
+    <div class="flex flex-col mt-4">
+      {
+        ideaPosts.map((post) => (
+          <div>
+            <a
+              href={`/blog/${post.id}`}
+              class="group py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-sm md:text-base text-[#d1d5db] hover:text-white transition-colors"
+            >
+              <span class="group-hover:text-white group-hover:translate-x-0.5 transition-all">
+                {post.data.title}
+              </span>
+              <span class="self-start sm:self-center border border-[#c6f135] text-[#c6f135] text-xs font-mono px-3 py-1 tracking-tight shrink-0">
+                {formatDate(post.data.publishedAt)}
+              </span>
+            </a>
+            <div class="dashed-divider my-1" />
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
