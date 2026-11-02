@@ -15,5 +15,6 @@ export const siteConfig = {
     { text: "GitHub", href: "https://github.com/FarhanHan23/", icon: "lucide:github" },
     { text: "Twitter", href: "https://x.com", icon: "lucide:twitter" },
     { text: "LinkedIn", href: "https://www.linkedin.com/in/muhammad-farhan-akmal/", icon: "lucide:linkedin" },
+    { text: "Dribbble", href: "https://dribbble.com/Studio_Han", icon: "lucide:dribbble" },
   ],
 };
