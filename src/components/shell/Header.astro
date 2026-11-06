@@ -27,5 +27,54 @@ import { siteConfig } from "../../config/site";
     <p class="text-sm md:text-base text-[#d1d5db] leading-relaxed max-w-2xl mt-2 font-normal">
       {siteConfig.bio}
     </p>
+
+    <!-- Action Buttons (Download / Preview CV) -->
+    <div class="flex flex-wrap items-center gap-3 pt-1">
+      <a
+        href={siteConfig.cvUrl}
+        download="CV-Muhammad-Farhan-Akmal_frontenddev.pdf"
+        class="group inline-flex items-center gap-2 border border-[#c6f135] bg-[#c6f135]/10 hover:bg-[#c6f135] text-[#c6f135] hover:text-[#1e2229] font-mono text-xs md:text-sm font-semibold px-4 py-2 transition-all duration-200"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-4 h-4 transition-transform group-hover:translate-y-0.5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        <span>Download CV</span>
+        <span class="text-[10px] opacity-80 font-normal uppercase tracking-wider pl-1.5 border-l border-current">PDF</span>
+      </a>
+
+      <a
+        href={siteConfig.cvUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 border border-[#313844] hover:border-[#8e98a5] text-[#8e98a5] hover:text-white font-mono text-xs md:text-sm px-3.5 py-2 transition-colors"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-3.5 h-3.5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        <span>Preview</span>
+      </a>
+    </div>
   </div>
 </header>

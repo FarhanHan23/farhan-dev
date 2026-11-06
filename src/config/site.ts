@@ -5,7 +5,8 @@ export const siteConfig = {
   siteUrl: "https://farhan-dev.pages.dev/",
   author: "Farhan Akmal",
   subtitle: "React | Frontend | Docker | Typescript | Go",
-  bio: "I'm a Frontend Developer from Indonesia with 1.5 years of experience in React.js, previously working as a UI/UX Designer for a year. I love exploring Fullstack development, backend, and DevOps.",
+  bio: "I'm a Frontend Developer from Indonesia with 2 years of experience in React.js, previously working as a UI/UX Designer for a year. I love exploring Fullstack development, backend, and DevOps.",
+  cvUrl: "/CV-Muhammad-Farhan-Akmal_frontenddev.pdf",
   navLinks: [
     { text: "Home", href: "/" },
     { text: "Blog", href: "/blog" },
